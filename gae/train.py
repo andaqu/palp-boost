@@ -109,7 +109,7 @@ cost_val = []
 acc_val = []
 
 # Calculate ROC AUC
-def get_roc_score(edges_pos, edges_neg, emb=None):
+def evaluate(edges_pos, edges_neg, emb=None):
     if emb is None:
         feed_dict.update({placeholders['dropout']: 0})
         emb = sess.run(model.z_mean, feed_dict=feed_dict)
@@ -162,7 +162,7 @@ for epoch in range(FLAGS.epochs):
     avg_accuracy = outs[2]
 
     # Evaluate predictions
-    roc_curr, ap_curr = get_roc_score(val_edges, val_edges_false)
+    roc_curr, ap_curr = evaluate(val_edges, val_edges_false)
     val_roc_score.append(roc_curr)
 
     # Print results for this epoch
@@ -174,6 +174,6 @@ for epoch in range(FLAGS.epochs):
 print("Optimization Finished!")
 
 # Print final results
-roc_score, ap_score = get_roc_score(test_edges, test_edges_false)
+roc_score, ap_score = evaluate(test_edges, test_edges_false)
 print('Test ROC score: ' + str(roc_score))
 print('Test AP score: ' + str(ap_score))

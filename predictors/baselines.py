@@ -14,12 +14,12 @@ class AdamicAcar(LinkPredictor):
 
         self.score_matrix = self.score_matrix / self.score_matrix.max()
 
-        test_roc, test_ap = self.get_roc_score(self.score_matrix, self.test_edges, self.test_edges_false)
+        test_roc, test_ap = self.evaluate(self.score_matrix, self.test_edges, self.test_edges_false)
         print({"Test ROC": test_roc, "Test AP": test_ap})
 
         if self.palp:
             score_matrix_boosted = self.score_matrix + self.palp.score_matrix
-            test_roc, test_ap = self.get_roc_score(score_matrix_boosted, self.test_edges, self.test_edges_false)
+            test_roc, test_ap = self.evaluate(score_matrix_boosted, self.test_edges, self.test_edges_false)
             print({"Test ROC (B)": test_roc, "Test AP (B)": test_ap})
 
 class JaccardCoefficient(LinkPredictor):
@@ -34,12 +34,12 @@ class JaccardCoefficient(LinkPredictor):
 
         self.score_matrix = self.score_matrix / self.score_matrix.max()
 
-        test_roc, test_ap = self.get_roc_score(self.score_matrix, self.test_edges, self.test_edges_false)
+        test_roc, test_ap = self.evaluate(self.score_matrix, self.test_edges, self.test_edges_false)
         print({"Test ROC": test_roc, "Test AP": test_ap})
 
         if self.palp:
             score_matrix_boosted = self.score_matrix + self.palp.score_matrix
-            test_roc, test_ap = self.get_roc_score(score_matrix_boosted, self.test_edges, self.test_edges_false)
+            test_roc, test_ap = self.evaluate(score_matrix_boosted, self.test_edges, self.test_edges_false)
             print({"Test ROC (B)": test_roc, "Test AP (B)": test_ap})
 
 class PreferentialAttachment(LinkPredictor):
@@ -54,10 +54,10 @@ class PreferentialAttachment(LinkPredictor):
 
         self.score_matrix = self.score_matrix / self.score_matrix.max()
 
-        test_roc, test_ap = self.get_roc_score(self.score_matrix, self.test_edges, self.test_edges_false)
+        test_roc, test_ap = self.evaluate(self.score_matrix, self.test_edges, self.test_edges_false)
         print({"Test ROC": test_roc, "Test AP": test_ap})
 
         if self.palp:
             score_matrix_boosted = self.score_matrix + self.palp.score_matrix
-            test_roc, test_ap = self.get_roc_score(score_matrix_boosted, self.test_edges, self.test_edges_false)
+            test_roc, test_ap = self.evaluate(score_matrix_boosted, self.test_edges, self.test_edges_false)
             print({"Test ROC (B)": test_roc, "Test AP (B)": test_ap})

@@ -18,13 +18,11 @@ class LinkPredictor:
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def get_roc_score(self, score_matrix, edges_pos, edges_neg, apply_sigmoid=False):
+    def evaluate(self, score_matrix, edges_pos, edges_neg, apply_sigmoid=False):
 
-        # Edge case
         if len(edges_pos) == 0 or len(edges_neg) == 0:
             return (None, None, None)
 
-        # Store positive edge predictions
         preds_pos = []
         for edge in edges_pos:
             score = score_matrix[edge[0], edge[1]]
@@ -33,7 +31,6 @@ class LinkPredictor:
             else:
                 preds_pos.append(score)
             
-        # Store negative edge predictions
         preds_neg = []
         for edge in edges_neg:
             score = score_matrix[edge[0], edge[1]]
@@ -50,6 +47,14 @@ class LinkPredictor:
         ap_score = average_precision_score(y_true, y_score)
         
         return roc_score*100, ap_score*100
+
+    def evaluate_classifier(self, classifier, embs, labels):
+
+        preds = classifier.predict_proba(embs)[:, 1]
+        roc = roc_auc_score(labels, preds)
+        ap = average_precision_score(labels, preds)
+
+        return roc*100, ap*100
 
     def get_ebunch(self):
 
