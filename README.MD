@@ -38,6 +38,6 @@ palp
 * `manager.py`: To execute code from.
 * `palpboost.py`: PALPBoost, containing calls to `helper.py` to construct the needed centroids, reflecting personality tendencies.
 
-`[1]:` https://snap.stanford.edu/data/ego-Twitter.html
-`[2]:` https://github.com/tkipf/gae
+`[1]:` https://snap.stanford.edu/data/ego-Twitter.html \
+`[2]:` https://github.com/tkipf/gae \
 `[3]:` https://github.com/lucashu1/link-prediction
