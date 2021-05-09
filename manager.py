@@ -1,34 +1,29 @@
-from predictors import SpectralClustering, AdamicAcar
-import numpy as np
-from palp import PALP
+from predictors import SpectralClustering, AdamicAcar, JaccardCoefficient, PreferentialAttachment
+from palpboost import PALPBoost
 import helper as hlpr
 import networkx as nx
+import analyser as an
+import numpy as np
 
 name = hlpr.build_graph(N=10, components="strong")
 name = f"{name}-0.2"
 
 split = hlpr.get_split(name)
-G = hlpr.load_graph(name)
+G_train = hlpr.load_graph(name)
 
-hlpr.build_ideal_centroids(G, to_save=name)
-centroids, weights, meta = hlpr.load_ideal_centroids(to_load=name)
+# palp = PALPBoost(G_train, name, split, eps=1, calc_upon_init=False)
+# an.plot_palp_scores(palp)
 
-adj_train, train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false, feat = split
+palp = PALPBoost(G_train, name, split, eps=120)
 
-palp = PALP(feat, centroids, weights, adj_train.shape)
-
-personality_score_matrix = palp.get_personality_score_matrix(np.concatenate((test_edges, test_edges_false)))
-
-# SC = SpectralClustering(split, G)
-# SC.predict(P_score_matrix)
-
-average = personality_score_matrix[personality_score_matrix!=0].mean()
-print(average)
-
-personality_score_matrix[personality_score_matrix < average + 17] = -0.5
-
-AA = AdamicAcar(split, G)
+AA = AdamicAcar(G_train, split, type="uint8", boost_with=palp)
 AA.predict()
 
-# SC = SpectralClustering(split, G)
-# SC.predict(P_score_matrix)
+# JC = JaccardCoefficient(G_train, split, boost_with=palp)
+# JC.predict()
+
+# PA = PreferentialAttachment(G_train, split, boost_with=palp)
+# PA.predict()
+
+# SC = SpectralClustering(G_train, split, boost_with=palp)
+# SC.predict()

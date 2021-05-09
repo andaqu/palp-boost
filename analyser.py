@@ -1,6 +1,7 @@
 from scipy.spatial.distance import cdist
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+from palpboost import PALPBoost
 from sklearn import metrics
 import helper as hlpr
 import networkx as nx
@@ -80,6 +81,22 @@ def plot_outgoing_degree_histogram(G):
     plt.axis("off")
     plt.show()
 
+def plot_palp_scores(palp:PALPBoost):
+
+    p = palp.calc_score_matrix(palp.test_edges)
+
+    palp.empty_score_matrix()
+    
+    p_false = palp.calc_score_matrix(palp.test_edges_false)
+
+    edges_scores = list(np.sort(p[p!=0].flatten()))
+    edges_false_scores = list(np.sort(p_false[p_false!=0].flatten()))
+
+    plt.hist(edges_scores, bins=100, fc=(0.2, 1, 0.2, 1))
+    plt.hist(edges_false_scores, bins=100, fc=(1, 0, 0, 0.75))
+    
+    plt.show()
+
 label = {0: "Openness in Experience", 1: "Conscientiousness", 2: "Extraversion", 3: "Agreeableness", 4: "Neuroticism"}
 
 if __name__ == "__main__":
@@ -92,6 +109,8 @@ if __name__ == "__main__":
     nodes = [node for node in G.nodes if len(G.out_edges(node))]
 
     for node in nodes:
+        print(weights[node])
+        print(centroids[node])
         plot_followees_personality_2d(node, centroids=centroids[node])
-
+        
     plot_outgoing_degree_histogram(G)

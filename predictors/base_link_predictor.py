@@ -4,15 +4,21 @@ import numpy as np
 
 class LinkPredictor:
 
-    def __init__(self, split, G_train,  seed:int=0):
-        self.split = split
+    def __init__(self, G_train, split, type="float32", boost_with=None, seed:int=0):
+        self.adj_train, self.train_edges, self.train_edges_false, self.val_edges, self.val_edges_false, self.test_edges, self.test_edges_false, self.feat = split
+        self.score_matrix = np.zeros(self.adj_train.shape, dtype=type)
         self.G_train = G_train
+        self.G_train_undirected = self.G_train.to_undirected()
+        self.palp = boost_with
         self.seed = seed
+
+    def predict(self):
+        raise NotImplementedError
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def get_roc_score(self, edges_pos, edges_neg, score_matrix, apply_sigmoid=False):
+    def get_roc_score(self, score_matrix, edges_pos, edges_neg, apply_sigmoid=False):
 
         # Edge case
         if len(edges_pos) == 0 or len(edges_neg) == 0:
@@ -43,15 +49,13 @@ class LinkPredictor:
         roc_curve_tuple = roc_curve(y_true, y_score)
         ap_score = average_precision_score(y_true, y_score)
         
-        return roc_score, ap_score
+        return roc_score*100, ap_score*100
 
-    def get_ebunch(self, split):
+    def get_ebunch(self):
 
-        adj_train, train_edges, train_edges_false, val_edges, val_edges_false, test_edges, test_edges_false, _ = split
-    
-        test_edges_list = test_edges.tolist() 
+        test_edges_list = self.test_edges.tolist() 
         test_edges_list = [tuple(node_pair) for node_pair in test_edges_list] 
-        test_edges_false_list = test_edges_false.tolist()
+        test_edges_false_list = self.test_edges_false.tolist()
         test_edges_false_list = [tuple(node_pair) for node_pair in test_edges_false_list]
 
         return (test_edges_list + test_edges_false_list)

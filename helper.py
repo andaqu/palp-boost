@@ -147,18 +147,17 @@ def get_ideal_centroids_for_node(node, p_u, P_v, k_max:int=10):
         scores[k] = score
 
     if len(scores) == 0:
-        return np.array([p_u]), {0 : 1}
+        return np.array([p_u]), {0: 1}
 
     ideal_k = max(scores, key=scores.get)
 
     centroids_ = centroids[ideal_k]
     weights_ = weights[ideal_k]
 
-    factor = 1.0 / sum(weights_.values())
+    factor = sum(weights_.values())
     for n in weights_:
-        weights_[n] = weights_[n] * factor
+        weights_[n] = weights_[n] / factor
 
-    # You should probably investigate whether count should be mixed with centroids
     return centroids_ , weights_
 
 # For twitter-10-strong: {1: 644, 2: 2654, 3: 679, 4: 327, 5: 183, 6: 125, 7: 86, 8: 66, 9: 61}
@@ -201,8 +200,3 @@ def load_ideal_centroids(to_load:str):
 
     with open(path, "rb") as f:
         return pickle.load(f)
-
-if __name__ == "__main__":
-    pass
-
-    
