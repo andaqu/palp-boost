@@ -32,7 +32,7 @@ palp
 * `saved`: Saved graph objects, train-val-test splits, and calculated centroids containing each personality tendency given the train split for some graph. Filenames are split as follows `twitter-{N}-{connected_components}-{p}` where:
   * `N` = it is a subset containing `1/N` of the entire graph.
   * `connected_components` = which kind of connected components are considered (this can be 'strong', 'weak' or nothing at all, to which that would be indicate that it does not fitler by components).
-  * `p` indicates that it is a split, consisting of p% test data.
+  * `p` = it is a split, where (p*100)% is the percentage of the test data.
 * `analyser.py`: Analyses personality dimensions, followee tendencies, degree count and PALPBoost score effectiveness.
 * `helper.py`: Helper functions.
 * `manager.py`: To execute code from.
