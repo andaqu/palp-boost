@@ -1,4 +1,4 @@
-# PALP-BOOST
+# PALP-Boost
 
 Personality-Aware Link Predictor Boosting, a system to be infused with other topological link predictors to optimise their performance; taking advantage of (computationally recognised) personalities.
 
@@ -38,6 +38,6 @@ palp
 * `manager.py`: To execute code from.
 * `palpboost.py`: PALPBoost, containing calls to `helper.py` to construct the needed centroids, reflecting personality tendencies.
 
-`[1]:` https://snap.stanford.edu/data/ego-Twitter.html \
-`[2]:` https://github.com/tkipf/gae \
-`[3]:` https://github.com/lucashu1/link-prediction
+`[1]`: https://snap.stanford.edu/data/ego-Twitter.html \
+`[2]`: https://github.com/tkipf/gae \
+`[3]`: https://github.com/lucashu1/link-prediction
