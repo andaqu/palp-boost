@@ -106,11 +106,9 @@ if __name__ == "__main__":
     G = hlpr.load_graph(name)
     centroids, weights, meta = hlpr.load_ideal_centroids(name)
 
-    nodes = [node for node in G.nodes if len(G.out_edges(node))]
+    nodes = [node for node in G.nodes if len(G.out_edges(node)) > 18]
 
     for node in nodes:
-        print(weights[node])
-        print(centroids[node])
         plot_followees_personality_2d(node, centroids=centroids[node])
         
     plot_outgoing_degree_histogram(G)

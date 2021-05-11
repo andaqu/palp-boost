@@ -60,7 +60,6 @@ def build_graph(N:int, personality_mode:str="normalised", selfloops:bool=False, 
         G.nodes[node]["pers"] = pers[node]
 
     # Save adjacement matrix and feature list
-
     adj = nx.adjacency_matrix(G)
     feat = np.zeros((G.number_of_nodes(), 5)) 
 

@@ -42,11 +42,12 @@ class PALPBoost:
 	def score(self, u, v):
 
 		score = 0
+		p_u = self.feat[u]
 		p_v = self.feat[v]
 
 		if self.score_mode == PALPBoost.ScoreMode.SOLO:
 
-			d = np.linalg.norm(p_v-self.feat[u])
+			d = np.linalg.norm(p_v-p_u)
 			score = 1 / (d + self.eps)
 
 		elif self.score_mode == PALPBoost.ScoreMode.CLUSTER:
@@ -54,5 +55,5 @@ class PALPBoost:
 			for i, c in enumerate(self.centroids[u]):
 				d = np.linalg.norm(p_v-c)
 				score += self.weights[u][i] / (d + self.eps)
-
+				
 		return score
